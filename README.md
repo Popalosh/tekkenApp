@@ -1,6 +1,6 @@
 # tekkenApp
 
-This app shows my view on the registration page implementation
+This app shows my view on a Sign-In and Log-In pages implementation
 
 ## Recommended IDE Setup
 

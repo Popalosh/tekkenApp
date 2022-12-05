@@ -146,7 +146,7 @@ export default {
     closeLogInMeny() {
       if (this.inLogIn == false) return;
       this.logIn = true;
-      this.inSignIn = false;
+      this.inLogIn = false;
     },
 
     registration() {
@@ -194,7 +194,7 @@ export default {
               <!--Chose location-->
               <div class="center">
                 <div class="roboto-font-black">Fill in all fields</div>
-                <select v-model="cityId">
+                Pick location: <select v-model="cityId">
                   <option v-for="(location, index) in locations" :value="index" :key="index">
                     {{location.city}}
                   </option>
@@ -243,21 +243,33 @@ export default {
     <div v-if="this.inLogIn" class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container-log-in">
-          <div class="modal-header">
-            <slot name="header">
-              <div class="text-center roboto-font-black">Welcome!</div>
-            </slot>
-          </div>
 
           <div class="modal-body">
-            Nickname: <input v-model="nickname" type="text" class="form-control">
-            Password: <input v-model="password" type="text" class="form-control">
+
+            <!--Chose location-->
+            <div class="center">
+              Pick location: 
+              <select v-model="cityId">
+                <option v-for="(location, index) in locations" :value="index" :key="index">
+                  {{location.city}}
+                </option>
+              </select>
+              <select v-model="adresId">
+                <option v-for="(adres, index) in locations[cityId].adresses" :key="index">
+                  {{adres}}
+                </option>
+              </select>
+            </div>
+
+            Nickname: <input v-model="this.nickname" type="text" class="form-control">
+            Password: <input v-model="this.password" type="text" class="form-control">
 
             <div class="d-flex">
-              <button @click="(closeLogInMenu)" class="btn btn-primary right margin-top">
+              <button @click="(closeLogInMeny)" class="btn btn-primary right margin-top">
                 Log In
               </button>
-          </div>
+            </div>
+
           </div>
         </div>
       </div>
