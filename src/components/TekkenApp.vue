@@ -11,7 +11,8 @@ export default {
 
   data() {
     return {
-      show: false,
+      inSignIn: false,
+      inLogIn: false,
 
       logIn: false,
 
@@ -127,19 +128,42 @@ export default {
 
   methods: {
     showSingInMenu() {
-      if(this.show == true) return;
-      this.show = true; 
+      if(this.inSignIn == true) return;
+      this.inSignIn = true; 
     },
 
     closeSingInMenu() {
-      if (this.show == false) return;
+      if (this.inSignIn == false) return;
       this.registration();
-      this.show = false;
+      this.inSignIn = false;
+    },
+
+    showLogInMeny() {
+      if (this.inLogIn == true) return;
+      this.inLogIn = true;
+    },
+
+    closeLogInMeny() {
+      if (this.inLogIn == false) return;
+      this.logIn = true;
+      this.inSignIn = false;
     },
 
     registration() {
-
+      
+      // Push code must be here
+      
+      this.nickname = "Enter nickname";
+      this.password = "Enter password";
+      this.name = "Enter name";
+      this.surname = "Enter surname";
+      this.patronymic = "Enter patronymic";
+      this.birthDate = Date;
+      this.eMail = "Enter e-Mail";
+      this.phoneNumber = "+7";
     }
+
+
   },
 }
 
@@ -154,92 +178,91 @@ export default {
     <div @click="showSingInMenu" class="right">
         <button class="btn roboto-btn">Sign In</button>
     </div>
+    <div @click="showLogInMeny" class="right">
+      <button class="btn roboto-btn">Log In</button>
+    </div>
   </div>
 
-<!--Sign in-->
-  <!-- <div class="container"> -->
-    <Transition name="modal">
-      <div v-if="this.show" class="modal-mask">
-        <div class="modal-wrapper">
-          <div class="modal-container">
-            <div class="modal-header">
-              <p name="header">
+  <!--Sign in-->
+  <Transition name="modal">
+    <div v-if="this.inSignIn" class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container-sign-in">
+          <div class="modal-header">
+            <p name="header">
+            
+              <!--Chose location-->
+              <div class="center">
+                <div class="roboto-font-black">Fill in all fields</div>
+                <select v-model="cityId">
+                  <option v-for="(location, index) in locations" :value="index" :key="index">
+                    {{location.city}}
+                  </option>
+                </select>
+                <select v-model="adresId">
+                  <option v-for="(adres, index) in locations[cityId].adresses" :key="index">
+                    {{adres}}
+                  </option>
+                </select>
+              </div>
               
-                <!--Chose location-->
-                <div class="center">
-                  <div class="roboto-font-black">Fill in all fields</div>
-                  <select v-model="cityId">
-                    <option v-for="(location, index) in locations" :value="index" :key="index">
-                      {{location.city}}
-                    </option>
-                  </select>
-                  <select v-model="adresId">
-                    <option v-for="(adres, index) in locations[cityId].adresses" :key="index">
-                      {{adres}}
-                    </option>
-                  </select>
-                </div>
-                
-                <!--Other data-->
-                <div class="left">
-                  Nickname: <input v-model="nickname" type="text" class="form-control">
-                  Password: <input v-model="password" type="text" class="form-control">
-                  Name: <input v-model="name" type="text" class="form-control">
-                  Surname: <input v-model="surname" type="text" class="form-control">
-                  Patronymic: <input v-model="patronymic" type="text" class="form-control">
-                </div>
+              <!--Other data-->
+              <div class="left">
+                Nickname: <input v-model="nickname" type="text" class="form-control">
+                Password: <input v-model="password" type="text" class="form-control">
+                Name: <input v-model="name" type="text" class="form-control">
+                Surname: <input v-model="surname" type="text" class="form-control">
+                Patronymic: <input v-model="patronymic" type="text" class="form-control">
+              </div>
 
-                <div class="right">
-                  e-Mail: <input v-model="eMail" type="text" class="form-control">
-                  Phone Number: <input v-model="phoneNumber" type="text" class="form-control">
-                  Birth Date :<Datepicker v-model="birthDate" class="birthDate"></Datepicker>
+              <div class="right">
+                e-Mail: <input v-model="eMail" type="text" class="form-control">
+                Phone Number: <input v-model="phoneNumber" type="text" class="form-control">
+                Birth Date :<Datepicker v-model="birthDate" class="birthDate"></Datepicker>
 
-                </div>
-              </p>
-            </div>
+              </div>
+            </p>
+          </div>
 
-            <div class="modal-body">
-              <p name="body">
-                <div class="d-flex">
-                    <button @click="(closeSingInMenu)" class="btn btn-primary right">
-                      Register
-                    </button>
-                </div>
-              </p>
-            </div>
+          <div class="modal-body">
+            <p name="body">
+              <div class="d-flex">
+                <button @click="(closeSingInMenu)" class="btn btn-primary right">
+                  Register
+                </button>
+              </div>
+            </p>
           </div>
         </div>
       </div>
-    </Transition>
-  <!-- </div> -->
+    </div>
+  </Transition>
 
   <!--Log in-->
-  <!-- <div class="container">
-    <Transition name="modal">
-      <div v-if="show" class="modal-mask">
-        <div class="modal-wrapper">
-          <div class="modal-container">
-            <div class="modal-header">
-              <slot name="header">default header</slot>
-            </div>
+  <Transition name="modal">
+    <div v-if="this.inLogIn" class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container-log-in">
+          <div class="modal-header">
+            <slot name="header">
+              <div class="text-center roboto-font-black">Welcome!</div>
+            </slot>
+          </div>
 
-            <div class="modal-body">
-              <slot name="body">default body</slot>
-            </div>
+          <div class="modal-body">
+            Nickname: <input v-model="nickname" type="text" class="form-control">
+            Password: <input v-model="password" type="text" class="form-control">
 
-            <div class="modal-footer">
-              <slot name="footer">
-                default footer
-                <button class="modal-default-button" @click="$emit('close')">
-                  OK
-                </button>
-              </slot>
-            </div>
+            <div class="d-flex">
+              <button @click="(closeLogInMenu)" class="btn btn-primary right margin-top">
+                Log In
+              </button>
+          </div>
           </div>
         </div>
       </div>
-    </Transition>
-  </div> -->
+    </div>
+  </Transition>
 
 
 </template>
@@ -251,11 +274,22 @@ export default {
   text-align: left;
   padding-bottom: 20px;
 }
+
+.right {
+  float: right!important;
+}
+
+.left {
+  float: left!important;
+}
+
+.margin-top {
+  margin-top: 20px;
+}
+
 .navbar {
   background:  #3428a0;
   padding: 10px;
-  padding-top: 5px;
-  padding-bottom: 0px;
   border-radius: 0;
 }
 
@@ -263,6 +297,7 @@ export default {
   font-family: Roboto;
   font-size: 23px;
   color: white;
+  margin: 4px;
 }
 
 .roboto-btn {
@@ -271,6 +306,7 @@ export default {
   border: 1px black;
   background-color: white;
   color: black;
+  margin: 5px;
 }
 
 .roboto-font-black {
@@ -279,12 +315,6 @@ export default {
   color: black;
 }
 
-.right {
-  float: right!important;
-}
-.left {
-  float: left!important;
-}
 
 .modal-mask {
   position: fixed;
@@ -303,9 +333,20 @@ export default {
   vertical-align: middle;
 }
 
-.modal-container {
+.modal-container-sign-in {
   width: 500px;
   height: 470px;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
+}
+
+.modal-container-log-in {
+  width: 500px;
+  height: 300px;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
@@ -329,8 +370,7 @@ export default {
 }
 
 .birthDate {
-  width: 20px;
-  height: 20px;
+  width: 200px;
 }
 
 
