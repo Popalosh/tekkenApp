@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vuepic/vue-datepicker": "^3.6.0",
     "bootstrap": "^3.4.1",
     "typeface-roboto": "^1.1.13",
     "vue": "^3.2.45"

@@ -14,7 +14,3 @@ export default {
     <tekken-app></tekken-app>
   </div>
 </template>
-
-<style>
-  @import '../node_modules/typeface-roboto/index.css'
-</style>
